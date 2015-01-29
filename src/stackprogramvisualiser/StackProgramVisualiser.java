@@ -1,6 +1,6 @@
 package stackprogramvisualiser;
 
-import stackprogramvisualiser.gui.GUI;
+import stackprogramvisualiser.gui.Gui;
 
 public class StackProgramVisualiser {
 
@@ -13,7 +13,7 @@ public class StackProgramVisualiser {
 
 	// let's get the party started
 	public void init() {
-		GUI gui = new GUI(this);
+		Gui gui = new Gui(this);
 		gui.build();
 	}
 
