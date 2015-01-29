@@ -1,0 +1,7 @@
+./stackprogramvisualiser/exceptions/InvalidInstructionException.java
+./stackprogramvisualiser/exceptions/CodeFormatException.java
+./stackprogramvisualiser/Parser.java
+./stackprogramvisualiser/StackProgramVisualiser.java
+./stackprogramvisualiser/ParsedCode.java
+./stackprogramvisualiser/Instruction.java
+./stackprogramvisualiser/gui/GUI.java

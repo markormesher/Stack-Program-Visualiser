@@ -3,5 +3,4 @@
 *.iml
 
 # compiler
-src/sources.txt
 *.class
