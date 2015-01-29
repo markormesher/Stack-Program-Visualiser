@@ -1,5 +1,7 @@
-import exceptions.CodeFormatException;
-import exceptions.InvalidInstructionException;
+package stackprogramvisualiser;
+
+import stackprogramvisualiser.exceptions.CodeFormatException;
+import stackprogramvisualiser.exceptions.InvalidInstructionException;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-import exceptions.InvalidInstructionException;
+package stackprogramvisualiser;
+
+import stackprogramvisualiser.exceptions.InvalidInstructionException;
 
 public class Instruction {
 

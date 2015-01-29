@@ -1,4 +1,4 @@
-package exceptions;
+package stackprogramvisualiser.exceptions;
 
 public class InvalidInstructionException extends Exception {
 
