@@ -9,7 +9,10 @@ public class Gui extends JFrame {
 
 	private StackProgramVisualiser controller;
 
+	private Insets paddingInsets = new Insets(6, 6, 6, 6);
+
 	private JLabel programCounter;
+	private StackGui stackGui;
 
 	public Gui(StackProgramVisualiser controller) {
 		this.controller = controller;
@@ -31,11 +34,8 @@ public class Gui extends JFrame {
 		JPanel mainPanel = new JPanel(new GridBagLayout());
 		setContentPane(mainPanel);
 
-		// LHS working area
+		// LHS area
 		JPanel leftPanel = new JPanel(new GridBagLayout());
-		leftPanel.setBackground(Color.BLUE);
-		leftPanel.add(new JLabel("test"));
-
 		GridBagConstraints leftPanelGBC = new GridBagConstraints();
 		leftPanelGBC.anchor = GridBagConstraints.LINE_START;
 		leftPanelGBC.gridx = 0;
@@ -45,16 +45,12 @@ public class Gui extends JFrame {
 		leftPanelGBC.gridwidth = 1;
 		leftPanelGBC.gridheight = 1;
 		leftPanelGBC.fill = GridBagConstraints.BOTH;
-
 		mainPanel.add(leftPanel, leftPanelGBC);
 
 		// todo: spacer
 
-		// RHS list of boxes
+		// RHS area
 		JPanel rightPanel = new JPanel(new GridBagLayout());
-		rightPanel.setBackground(Color.RED);
-		rightPanel.add(new JLabel("test"));
-
 		GridBagConstraints rightPanelGBC = new GridBagConstraints();
 		rightPanelGBC.anchor = GridBagConstraints.LINE_END;
 		rightPanelGBC.gridx = 1;
@@ -64,13 +60,40 @@ public class Gui extends JFrame {
 		rightPanelGBC.gridwidth = 1;
 		rightPanelGBC.gridheight = 1;
 		rightPanelGBC.fill = GridBagConstraints.BOTH;
-
 		mainPanel.add(rightPanel, rightPanelGBC);
 
-		// LHS set of boxes
-		//programCounter = new JLabel("0");
-		//programCounter.setBorder(BorderFactory.createTitledBorder("Program Counter"));
-		//rightPanel.add(programCounter, BorderLayout.NORTH);
+		/* RHS items */
+
+		// program counter
+		programCounter = new JLabel("0");
+		programCounter.setBorder(BorderFactory.createTitledBorder("Program Counter"));
+		programCounter.setHorizontalAlignment(SwingConstants.CENTER);
+		programCounter.setFont(programCounter.getFont().deriveFont(48f).deriveFont(programCounter.getFont().getStyle() & ~Font.BOLD));
+		GridBagConstraints programCounterGBC = new GridBagConstraints();
+		programCounterGBC.anchor = GridBagConstraints.PAGE_START;
+		programCounterGBC.gridx = 0;
+		programCounterGBC.gridy = 0;
+		programCounterGBC.weightx = 1;
+		programCounterGBC.gridwidth = 1;
+		programCounterGBC.gridheight = 1;
+		programCounterGBC.fill = GridBagConstraints.HORIZONTAL;
+		programCounterGBC.insets = paddingInsets;
+		rightPanel.add(programCounter, programCounterGBC);
+
+		// stack visual
+		stackGui = new StackGui(rightPanel);
+		stackGui.setBorder(BorderFactory.createTitledBorder("Stack"));
+		GridBagConstraints stackGuiGBC = new GridBagConstraints();
+		stackGuiGBC.anchor = GridBagConstraints.PAGE_END;
+		stackGuiGBC.gridx = 0;
+		stackGuiGBC.gridy = 1;
+		stackGuiGBC.weightx = 1;
+		stackGuiGBC.weighty = 1;
+		stackGuiGBC.gridwidth = 1;
+		stackGuiGBC.gridheight = 1;
+		stackGuiGBC.fill = GridBagConstraints.BOTH;
+		stackGuiGBC.insets = paddingInsets;
+		rightPanel.add(stackGui, stackGuiGBC);
 
 		// finally... display!
 		this.setVisible(true);
