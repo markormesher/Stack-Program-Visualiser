@@ -1,0 +1,6 @@
+// subtract 8 from 19; this should print 11
+
+INT 19
+INT 8
+SUB
+PRINT

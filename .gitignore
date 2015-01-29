@@ -1,0 +1,7 @@
+# IDEA IntelliJ
+.idea/
+*.iml
+
+# compiler
+src/sources.txt
+*.class

@@ -1,0 +1,6 @@
+// add 3 and 6 together; this should print 9
+
+INT 3
+INT 6
+ADD
+PRINT
