@@ -11,9 +11,16 @@ public class StackGui extends JPanel {
 
 	// empty label
 	private static JLabel emptyLabel = new JLabel("Empty Stack", SwingConstants.CENTER);
+	private static GridBagConstraints emptyLabelGBC = new GridBagConstraints();
 
 	static {
 		emptyLabel.setFont(emptyLabel.getFont().deriveFont(emptyLabel.getFont().getStyle() & ~Font.BOLD));
+		GridBagConstraints emptyLabelGBC = new GridBagConstraints();
+		emptyLabelGBC.anchor = GridBagConstraints.PAGE_START;
+		emptyLabelGBC.gridx = 0;
+		emptyLabelGBC.gridy = 0;
+		emptyLabelGBC.fill = GridBagConstraints.HORIZONTAL;
+		emptyLabelGBC.insets = new Insets(2, 2, 2, 2);
 	}
 
 	public StackGui() {
@@ -21,13 +28,13 @@ public class StackGui extends JPanel {
 		setLayout(new GridLayout(1, 1));
 
 		// set main panel
-		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridBagLayout());
+		mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 		add(new JScrollPane(mainPanel));
 
 		// set default data
-		mainPanel.add(emptyLabel);
+		mainPanel.add(emptyLabel, emptyLabelGBC);
+		mainPanel.revalidate();
 	}
 
 	public void setDataSource(Stack<Integer> data) {
@@ -37,10 +44,11 @@ public class StackGui extends JPanel {
 	public void redraw() {
 		// clear it out, then start again
 		mainPanel.removeAll();
+		mainPanel.revalidate();
 
 		// empty?
 		if (data == null || data.isEmpty()) {
-			mainPanel.add(emptyLabel);
+			mainPanel.add(emptyLabel, emptyLabelGBC);
 			return;
 		}
 
@@ -69,6 +77,8 @@ public class StackGui extends JPanel {
 		glueGCB.fill = GridBagConstraints.HORIZONTAL;
 		glueGCB.insets = new Insets(2, 2, 2, 2);
 		mainPanel.add(Box.createGlue(), glueGCB);
+
+		mainPanel.revalidate();
 	}
 
 }

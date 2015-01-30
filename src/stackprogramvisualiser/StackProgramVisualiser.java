@@ -105,7 +105,7 @@ public class StackProgramVisualiser {
 	private void runProgram() {
 		// get started
 		programCounter = 0;
-		dataStack.empty();
+		dataStack.removeAllElements();
 
 		// loop
 		while (programCounter < parsedCode.getInstructionCount()) {
