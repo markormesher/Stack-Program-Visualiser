@@ -33,11 +33,30 @@ public class Instruction {
 	}
 
 	public void execute() throws NullPointerException, EmptyStackException {
+		// temporary holders
+		Integer a1, a2, a3, a4;
+
 		// switch on the command we're executing
 		switch (command) {
 			case INT:
 				if (intArg == null) throw new NullPointerException();
 				push(intArg);
+				break;
+
+			case ADD:
+				a1 = pop();
+				a2 = pop();
+				push(a1 + a2);
+				break;
+
+			case SUB:
+				a1 = pop();
+				a2 = pop();
+				push(a2 - a1);
+				break;
+
+			case PRINT:
+				StackProgramVisualiser.gui.outputTerminalMessage(peek().toString());
 				break;
 		}
 

@@ -8,7 +8,7 @@ import java.util.Stack;
 
 public class StackProgramVisualiser {
 
-	private Gui gui;
+	public static Gui gui;
 
 	private ParsedCode parsedCode;
 	private boolean stepMode = false;
