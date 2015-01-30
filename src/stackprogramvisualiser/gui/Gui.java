@@ -4,6 +4,7 @@ import stackprogramvisualiser.StackProgramVisualiser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Stack;
 
 public class Gui extends JFrame {
 
@@ -114,7 +115,7 @@ public class Gui extends JFrame {
 		rightPanel.add(programCounter, programCounterGBC);
 
 		// stack visual
-		stackGui = new StackGui(rightPanel);
+		stackGui = new StackGui();
 		stackGui.setBorder(BorderFactory.createTitledBorder("Stack"));
 		GridBagConstraints stackGuiGBC = new GridBagConstraints();
 		stackGuiGBC.gridx = 0;
@@ -134,6 +135,18 @@ public class Gui extends JFrame {
 
 		// finally... display!
 		setVisible(true);
+	}
+
+	public void setProgramCounter(int pc) {
+		programCounter.setText(((Integer) pc).toString());
+	}
+
+	public void setStackDataSource(Stack<Integer> data) {
+		stackGui.setDataSource(data);
+	}
+
+	public void redrawStackGui() {
+		stackGui.redraw();
 	}
 
 }
