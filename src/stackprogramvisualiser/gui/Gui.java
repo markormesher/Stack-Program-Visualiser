@@ -175,8 +175,8 @@ public class Gui extends JFrame {
 		});
 	}
 
-	public void setProgramCounter(int pc) {
-		programCounter.setText(((Integer) pc).toString());
+	public void setProgramCounter(Integer pc) {
+		programCounter.setText(pc == null ? "--" : pc.toString());
 	}
 
 	public void setStackDataSource(Stack<Integer> data) {

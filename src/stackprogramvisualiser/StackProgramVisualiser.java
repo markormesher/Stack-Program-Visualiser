@@ -15,7 +15,7 @@ public class StackProgramVisualiser {
 		gui.build();
 
 		// default RHS view
-		gui.setProgramCounter(0);
+		gui.setProgramCounter(null);
 		gui.redrawStackGui();
 	}
 
