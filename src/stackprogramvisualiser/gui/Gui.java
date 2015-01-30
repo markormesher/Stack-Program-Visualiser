@@ -22,6 +22,7 @@ public class Gui extends JFrame {
 	private JTextArea editArea;
 	private JTextArea terminalArea;
 	private JButton runButton;
+	private JButton stopButton;
 	private JButton startStepModeButton;
 	private JButton nextStepButton;
 	private JButton quitStepModeButton;
@@ -68,11 +69,13 @@ public class Gui extends JFrame {
 
 		// button bar
 		runButton = new JButton("Run Program");
+		stopButton = new JButton("Stop Program");
 		startStepModeButton = new JButton("Start 'Step by Step' Mode");
 		nextStepButton = new JButton("Next Step");
 		quitStepModeButton = new JButton("Quit 'Step by Step' Mode");
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonPanel.add(runButton);
+		buttonPanel.add(stopButton);
 		buttonPanel.add(startStepModeButton);
 		buttonPanel.add(nextStepButton);
 		buttonPanel.add(quitStepModeButton);
@@ -88,6 +91,7 @@ public class Gui extends JFrame {
 		leftPanel.add(buttonPanel, buttonPanelGBC);
 
 		// by default, hide some buttons
+		stopButton.setVisible(false);
 		nextStepButton.setVisible(false);
 		quitStepModeButton.setVisible(false);
 
@@ -155,6 +159,12 @@ public class Gui extends JFrame {
 				controller.onRunProgram();
 			}
 		});
+		stopButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				controller.onStop();
+			}
+		});
 		startStepModeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -187,11 +197,41 @@ public class Gui extends JFrame {
 		stackGui.redraw();
 	}
 
-	public void setStepMode(boolean inStepMode) {
-		runButton.setVisible(!inStepMode);
-		startStepModeButton.setVisible(!inStepMode);
-		nextStepButton.setVisible(inStepMode);
-		quitStepModeButton.setVisible(inStepMode);
+	public void startStepMode() {
+		runButton.setVisible(false);
+		stopButton.setVisible(false);
+		startStepModeButton.setVisible(false);
+		nextStepButton.setVisible(true);
+		quitStepModeButton.setVisible(true);
+	}
+
+	public void stopStepMode() {
+		runButton.setVisible(true);
+		stopButton.setVisible(false);
+		startStepModeButton.setVisible(true);
+		nextStepButton.setVisible(false);
+		quitStepModeButton.setVisible(false);
+	}
+
+	public void startRunMode() {
+		runButton.setVisible(false);
+		stopButton.setVisible(true);
+		startStepModeButton.setVisible(false);
+		nextStepButton.setVisible(false);
+		quitStepModeButton.setVisible(false);
+	}
+
+	public void stopRunMode() {
+		runButton.setVisible(true);
+		stopButton.setVisible(false);
+		startStepModeButton.setVisible(true);
+		nextStepButton.setVisible(false);
+		quitStepModeButton.setVisible(false);
+	}
+
+	public void setEditorLock(boolean editorLock) {
+		//editArea.setEnabled(editorLock);
+		editArea.setEditable(!editorLock);
 	}
 
 }

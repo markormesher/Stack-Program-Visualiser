@@ -20,17 +20,23 @@ public class StackProgramVisualiser {
 	}
 
 	public void onRunProgram() {
+		// update gui
+		gui.startRunMode();
+	}
 
+	public void onStop() {
+		// update gui
+		gui.stopRunMode();
 	}
 
 	public void onStartStepMode() {
 		// update gui
-		gui.setStepMode(true);
+		gui.startStepMode();
 	}
 
 	public void onQuitStepMode() {
 		// update gui
-		gui.setStepMode(false);
+		gui.stopStepMode();
 	}
 
 	public void onNextStep() {
