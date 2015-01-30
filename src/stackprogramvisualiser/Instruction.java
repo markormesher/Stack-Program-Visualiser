@@ -2,6 +2,8 @@ package stackprogramvisualiser;
 
 import stackprogramvisualiser.exceptions.InvalidInstructionException;
 
+import java.util.EmptyStackException;
+
 public class Instruction {
 
 	private Command command;
@@ -30,9 +32,39 @@ public class Instruction {
 		}
 	}
 
-	public void execute() {
-		StackProgramVisualiser.dataStack.push(0);
-		StackProgramVisualiser.programCounter += 1;
+	public void execute() throws NullPointerException, EmptyStackException {
+		// switch on the command we're executing
+		switch (command) {
+			case INT:
+				if (intArg == null) throw new NullPointerException();
+				push(intArg);
+				break;
+		}
+
+		// move on!
+		pcAdvance();
+	}
+
+	/* shortcut methods */
+
+	private void push(Integer i) {
+		StackProgramVisualiser.dataStack.push(i);
+	}
+
+	private Integer pop() throws EmptyStackException {
+		return StackProgramVisualiser.dataStack.pop();
+	}
+
+	private Integer peek() throws EmptyStackException {
+		return StackProgramVisualiser.dataStack.peek();
+	}
+
+	private void pcAdvance() {
+		StackProgramVisualiser.programCounter++;
+	}
+
+	private void pcSet(int pc) {
+		StackProgramVisualiser.programCounter = pc;
 	}
 
 	public enum Command {

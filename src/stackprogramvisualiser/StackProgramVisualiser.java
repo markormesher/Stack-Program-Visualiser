@@ -3,6 +3,7 @@ package stackprogramvisualiser;
 import stackprogramvisualiser.exceptions.CodeFormatException;
 import stackprogramvisualiser.gui.Gui;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class StackProgramVisualiser {
@@ -50,15 +51,13 @@ public class StackProgramVisualiser {
 		gui.setProgramCounter(programCounter);
 		gui.setStackDataSource(dataStack);
 		gui.redrawStackGui();
+		onStop();
 	}
 
 	public void onStop() {
 		// update gui
 		gui.stopRunMode();
 		gui.setEditorLock(false);
-		gui.setProgramCounter(null);
-		gui.setStackDataSource(null);
-		gui.redrawStackGui();
 	}
 
 	public void onStartStepMode() {
@@ -71,9 +70,6 @@ public class StackProgramVisualiser {
 		// update gui
 		gui.stopStepMode();
 		gui.setEditorLock(false);
-		gui.setProgramCounter(null);
-		gui.setStackDataSource(null);
-		gui.redrawStackGui();
 	}
 
 	public void onNextStep() {
@@ -117,7 +113,20 @@ public class StackProgramVisualiser {
 			Instruction i = parsedCode.getInstruction(programCounter);
 
 			// execute the instruction
+			if (!executeInstruction(i)) break;
+		}
+	}
+
+	private boolean executeInstruction(Instruction i) {
+		try {
 			i.execute();
+			return true;
+		} catch (NullPointerException npe) {
+			gui.outputTerminalError("Missing parameter at line " + programCounter);
+			return false;
+		} catch (EmptyStackException ese) {
+			gui.outputTerminalError("Empty stack accessed at line " + programCounter);
+			return false;
 		}
 	}
 
