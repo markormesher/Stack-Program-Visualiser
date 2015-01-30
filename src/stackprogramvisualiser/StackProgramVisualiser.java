@@ -11,11 +11,11 @@ public class StackProgramVisualiser {
 
 	public static Gui gui;
 
-	private ParsedCode parsedCode;
 	private boolean stepMode = false;
 	private boolean nextStep = false;
 
 	// these are public static so that the Instruction class can interact with them
+	public static ParsedCode parsedCode;
 	public static int programCounter = -1;
 	public static Stack<Integer> dataStack = new Stack<Integer>();
 

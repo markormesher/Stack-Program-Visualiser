@@ -56,6 +56,34 @@ public class Instruction {
 				push(a2 - a1);
 				break;
 
+			case JGE:
+				a1 = peek();
+				if (a1 >= 0) {
+					// which arg to move to?
+					if (intArg != null) {
+						pcSet(intArg);
+					} else {
+						// TODO: check label
+						pcSet(StackProgramVisualiser.parsedCode.getPositionForLabel(strArg));
+					}
+					return;
+				}
+				break;
+
+			case JEQ:
+				a1 = peek();
+				if (a1 == 0) {
+					// which arg to move to?
+					if (intArg != null) {
+						pcSet(intArg);
+					} else {
+						// TODO: check label
+						pcSet(StackProgramVisualiser.parsedCode.getPositionForLabel(strArg));
+					}
+					return;
+				}
+				break;
+
 			case EXIT:
 				throw new ProgramExitException();
 
