@@ -236,11 +236,13 @@ public class Gui extends JFrame {
 	}
 
 	public void outputTerminalMessage(String msg) {
-		terminalArea.setText(terminalArea.getText() + "\n" + msg);
+		String original = terminalArea.getText();
+		terminalArea.setText(original + (original.length() == 0 ? "" : "\n") + msg);
 	}
 
 	public void outputTerminalError(String msg) {
-		terminalArea.setText(terminalArea.getText() + "\n" + msg);
+		String original = terminalArea.getText();
+		terminalArea.setText(original + (original.length() == 0 ? "" : "\n") + msg);
 	}
 
 }
