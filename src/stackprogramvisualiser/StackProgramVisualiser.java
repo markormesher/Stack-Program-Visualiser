@@ -1,6 +1,7 @@
 package stackprogramvisualiser;
 
 import stackprogramvisualiser.exceptions.CodeFormatException;
+import stackprogramvisualiser.exceptions.ProgramExitException;
 import stackprogramvisualiser.gui.Gui;
 
 import java.util.EmptyStackException;
@@ -126,6 +127,8 @@ public class StackProgramVisualiser {
 			return false;
 		} catch (EmptyStackException ese) {
 			gui.outputTerminalError("Empty stack accessed at line " + programCounter);
+			return false;
+		} catch (ProgramExitException pee) {
 			return false;
 		}
 	}

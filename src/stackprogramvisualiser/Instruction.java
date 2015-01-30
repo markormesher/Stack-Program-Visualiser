@@ -1,6 +1,7 @@
 package stackprogramvisualiser;
 
 import stackprogramvisualiser.exceptions.InvalidInstructionException;
+import stackprogramvisualiser.exceptions.ProgramExitException;
 
 import java.util.EmptyStackException;
 
@@ -32,7 +33,7 @@ public class Instruction {
 		}
 	}
 
-	public void execute() throws NullPointerException, EmptyStackException {
+	public void execute() throws NullPointerException, EmptyStackException, ProgramExitException {
 		// temporary holders
 		Integer a1, a2, a3, a4;
 
@@ -54,6 +55,9 @@ public class Instruction {
 				a2 = pop();
 				push(a2 - a1);
 				break;
+
+			case EXIT:
+				throw new ProgramExitException();
 
 			case PRINT:
 				StackProgramVisualiser.gui.outputTerminalMessage(peek().toString());
@@ -94,8 +98,19 @@ public class Instruction {
 		ADD,
 		SUB,
 
+		// control statements
+		JGE,
+		JEQ,
+		EXIT,
+
 		// output
-		PRINT
+		PRINT,
+
+		SWAP,
+		CALL,
+		RET,
+		DUP,
+		POP,
 	}
 
 }
