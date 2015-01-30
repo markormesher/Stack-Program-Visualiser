@@ -26,7 +26,7 @@ public class Instruction {
 
 	private void setCommand(String command) throws InvalidInstructionException {
 		try {
-			this.command = Command.valueOf(command);
+			this.command = Command.valueOf(command.toUpperCase());
 		} catch (IllegalArgumentException iae) {
 			throw new InvalidInstructionException(command);
 		}
