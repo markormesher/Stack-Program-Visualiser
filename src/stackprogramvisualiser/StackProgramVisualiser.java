@@ -30,7 +30,12 @@ public class StackProgramVisualiser {
 		gui.setEditorLock(true);
 
 		// try to parse the program
-		if (!parseProgram()) return;
+		if (!parseProgram()) {
+			onStop();
+			return;
+		}
+
+		gui.outputTerminalMessage("At this point, the program will start");
 	}
 
 	public void onStop() {
