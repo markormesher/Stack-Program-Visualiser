@@ -20,7 +20,9 @@ public class Gui extends JFrame {
 	private JTextArea editArea;
 	private JTextArea terminalArea;
 	private JButton runButton;
-	private JButton stepButton;
+	private JButton startStepModeButton;
+	private JButton nextStepButton;
+	private JButton quitStepModeButton;
 
 	public Gui(StackProgramVisualiser controller) {
 		this.controller = controller;
@@ -63,11 +65,15 @@ public class Gui extends JFrame {
 		leftPanel.add(editAreaPanel, editAreaGBC);
 
 		// button bar
-		runButton = new JButton("Run");
-		stepButton = new JButton("Step");
+		runButton = new JButton("Run Program");
+		startStepModeButton = new JButton("Start 'Step by Step' Mode");
+		nextStepButton = new JButton("Next Step");
+		quitStepModeButton = new JButton("Quit 'Step by Step' Mode");
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		buttonPanel.add(runButton);
-		buttonPanel.add(stepButton);
+		buttonPanel.add(startStepModeButton);
+		buttonPanel.add(nextStepButton);
+		buttonPanel.add(quitStepModeButton);
 		buttonPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
 		GridBagConstraints buttonPanelGBC = new GridBagConstraints();
 		buttonPanelGBC.gridx = 0;
@@ -78,6 +84,10 @@ public class Gui extends JFrame {
 		buttonPanelGBC.fill = GridBagConstraints.HORIZONTAL;
 		buttonPanelGBC.insets = paddingInsets;
 		leftPanel.add(buttonPanel, buttonPanelGBC);
+
+		// by default, hide some buttons
+		nextStepButton.setVisible(false);
+		quitStepModeButton.setVisible(false);
 
 		// pseudo terminal
 		terminalArea = new JTextArea();
