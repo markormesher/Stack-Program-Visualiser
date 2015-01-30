@@ -21,6 +21,10 @@ public class ParsedCode {
 		}
 	}
 
+	public int getInstructionCount() {
+		return instructions == null ? -1 : instructions.size();
+	}
+
 	public int getPositionForLabel(String label) {
 		if (labels.containsKey(label)) {
 			return labels.get(label);

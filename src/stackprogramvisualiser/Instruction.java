@@ -30,16 +30,9 @@ public class Instruction {
 		}
 	}
 
-	public Command getCommand() {
-		return command;
-	}
-
-	public Integer getIntArg() {
-		return intArg;
-	}
-
-	public String getStrArg() {
-		return strArg;
+	public void execute() {
+		StackProgramVisualiser.dataStack.push(0);
+		StackProgramVisualiser.programCounter += 1;
 	}
 
 	public enum Command {

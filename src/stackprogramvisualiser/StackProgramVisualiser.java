@@ -3,11 +3,19 @@ package stackprogramvisualiser;
 import stackprogramvisualiser.exceptions.CodeFormatException;
 import stackprogramvisualiser.gui.Gui;
 
+import java.util.Stack;
+
 public class StackProgramVisualiser {
 
 	private Gui gui;
 
 	private ParsedCode parsedCode;
+	private boolean stepMode = false;
+	private boolean nextStep = false;
+
+	// these are public static so that the Instruction class can interact with them
+	public static int programCounter = -1;
+	public static Stack<Integer> dataStack = new Stack<Integer>();
 
 	public StackProgramVisualiser() {
 	}
@@ -35,7 +43,13 @@ public class StackProgramVisualiser {
 			return;
 		}
 
-		gui.outputTerminalMessage("At this point, the program will start");
+		// run the program
+		runProgram();
+
+		// update display
+		gui.setProgramCounter(programCounter);
+		gui.setStackDataSource(dataStack);
+		gui.redrawStackGui();
 	}
 
 	public void onStop() {
@@ -89,6 +103,21 @@ public class StackProgramVisualiser {
 				gui.outputTerminalError("    - Invalid instruction name '" + e.getIie().getInstructionValue() + "'");
 			}
 			return false;
+		}
+	}
+
+	private void runProgram() {
+		// get started
+		programCounter = 0;
+		dataStack.empty();
+
+		// loop
+		while (programCounter < parsedCode.getInstructionCount()) {
+			// get instruction
+			Instruction i = parsedCode.getInstruction(programCounter);
+
+			// execute the instruction
+			i.execute();
 		}
 	}
 
