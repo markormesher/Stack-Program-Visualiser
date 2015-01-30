@@ -44,7 +44,8 @@ public class Gui extends JFrame {
 		}
 
 		/* left/right areas */
-		JPanel leftPanel = new JPanel(new GridBagLayout());
+		JSplitPane leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		leftPanel.setDividerLocation((int) Math.round(getHeight() * 0.5));
 		JPanel rightPanel = new JPanel(new GridBagLayout());
 
 		/* LHS items */
@@ -53,19 +54,13 @@ public class Gui extends JFrame {
 		editArea = new JTextArea();
 		editArea.setFont(editorTerminalFont);
 		editArea.setLineWrap(true);
-		GridBagConstraints editAreaGBC = new GridBagConstraints();
-		editAreaGBC.gridx = 0;
-		editAreaGBC.gridy = 0;
-		editAreaGBC.weightx = 1;
-		editAreaGBC.weighty = 3;
-		editAreaGBC.gridwidth = 1;
-		editAreaGBC.gridheight = 1;
-		editAreaGBC.fill = GridBagConstraints.BOTH;
-		editAreaGBC.insets = paddingInsets;
 		JPanel editAreaPanel = new JPanel(new GridLayout(1, 1));
 		editAreaPanel.add(new JScrollPane(editArea));
 		editAreaPanel.setBorder(BorderFactory.createTitledBorder("Program Editor"));
-		leftPanel.add(editAreaPanel, editAreaGBC);
+		leftPanel.add(editAreaPanel);
+
+		// lower left panel
+		JPanel lowerLeftPanel = new JPanel(new GridBagLayout());
 
 		// button bar
 		runButton = new JButton("Run Program");
@@ -82,13 +77,13 @@ public class Gui extends JFrame {
 		buttonPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
 		GridBagConstraints buttonPanelGBC = new GridBagConstraints();
 		buttonPanelGBC.gridx = 0;
-		buttonPanelGBC.gridy = 1;
+		buttonPanelGBC.gridy = 0;
 		buttonPanelGBC.weightx = 1;
 		buttonPanelGBC.gridwidth = 1;
 		buttonPanelGBC.gridheight = 1;
 		buttonPanelGBC.fill = GridBagConstraints.HORIZONTAL;
 		buttonPanelGBC.insets = paddingInsets;
-		leftPanel.add(buttonPanel, buttonPanelGBC);
+		lowerLeftPanel.add(buttonPanel, buttonPanelGBC);
 
 		// by default, hide some buttons
 		stopButton.setVisible(false);
@@ -101,9 +96,9 @@ public class Gui extends JFrame {
 		terminalArea.setLineWrap(true);
 		GridBagConstraints terminalAreaGBC = new GridBagConstraints();
 		terminalAreaGBC.gridx = 0;
-		terminalAreaGBC.gridy = 2;
+		terminalAreaGBC.gridy = 1;
 		terminalAreaGBC.weightx = 1;
-		terminalAreaGBC.weighty = 2;
+		terminalAreaGBC.weighty = 1;
 		terminalAreaGBC.gridwidth = 1;
 		terminalAreaGBC.gridheight = 1;
 		terminalAreaGBC.fill = GridBagConstraints.BOTH;
@@ -111,7 +106,10 @@ public class Gui extends JFrame {
 		JPanel terminalAreaPanel = new JPanel(new GridLayout(1, 1));
 		terminalAreaPanel.add(new JScrollPane(terminalArea));
 		terminalAreaPanel.setBorder(BorderFactory.createTitledBorder("Terminal"));
-		leftPanel.add(terminalAreaPanel, terminalAreaGBC);
+		lowerLeftPanel.add(terminalAreaPanel, terminalAreaGBC);
+
+		// add lower left panel
+		leftPanel.add(lowerLeftPanel);
 
 		/* RHS items */
 
