@@ -4,6 +4,8 @@ import stackprogramvisualiser.StackProgramVisualiser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Stack;
 
 public class Gui extends JFrame {
@@ -145,6 +147,32 @@ public class Gui extends JFrame {
 
 		// finally... display!
 		setVisible(true);
+
+		// set up button clicks
+		runButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				controller.onRunProgram();
+			}
+		});
+		startStepModeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				controller.onStartStepMode();
+			}
+		});
+		nextStepButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				controller.onNextStep();
+			}
+		});
+		quitStepModeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				controller.onQuitStepMode();
+			}
+		});
 	}
 
 	public void setProgramCounter(int pc) {
@@ -157,6 +185,13 @@ public class Gui extends JFrame {
 
 	public void redrawStackGui() {
 		stackGui.redraw();
+	}
+
+	public void setStepMode(boolean inStepMode) {
+		runButton.setVisible(!inStepMode);
+		startStepModeButton.setVisible(!inStepMode);
+		nextStepButton.setVisible(inStepMode);
+		quitStepModeButton.setVisible(inStepMode);
 	}
 
 }
