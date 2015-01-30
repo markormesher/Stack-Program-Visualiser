@@ -19,6 +19,8 @@ public class StackGui extends JPanel {
 		emptyLabelGBC.anchor = GridBagConstraints.PAGE_START;
 		emptyLabelGBC.gridx = 0;
 		emptyLabelGBC.gridy = 0;
+		emptyLabelGBC.weightx = 1;
+		emptyLabelGBC.weighty = 1;
 		emptyLabelGBC.fill = GridBagConstraints.HORIZONTAL;
 		emptyLabelGBC.insets = new Insets(2, 2, 2, 2);
 	}
@@ -45,6 +47,7 @@ public class StackGui extends JPanel {
 		// clear it out, then start again
 		mainPanel.removeAll();
 		mainPanel.revalidate();
+		mainPanel.repaint();
 
 		// empty?
 		if (data == null || data.isEmpty()) {
@@ -79,6 +82,7 @@ public class StackGui extends JPanel {
 		mainPanel.add(Box.createGlue(), glueGCB);
 
 		mainPanel.revalidate();
+		mainPanel.repaint();
 	}
 
 }
