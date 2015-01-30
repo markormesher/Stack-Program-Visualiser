@@ -230,8 +230,19 @@ public class Gui extends JFrame {
 	}
 
 	public void setEditorLock(boolean editorLock) {
-		//editArea.setEnabled(editorLock);
 		editArea.setEditable(!editorLock);
+	}
+
+	public String getEditorContents() {
+		return editArea.getText();
+	}
+
+	public void outputTerminalMessage(String msg) {
+		terminalArea.setText(terminalArea.getText() + "\n" + msg);
+	}
+
+	public void outputTerminalError(String msg) {
+		terminalArea.setText(terminalArea.getText() + "\n" + msg);
 	}
 
 }
