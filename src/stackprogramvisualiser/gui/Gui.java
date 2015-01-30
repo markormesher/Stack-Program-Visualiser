@@ -3,6 +3,7 @@ package stackprogramvisualiser.gui;
 import stackprogramvisualiser.StackProgramVisualiser;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,12 +16,22 @@ public class Gui extends JFrame {
 	// view options
 	private Insets paddingInsets = new Insets(6, 6, 6, 6);
 	private Font editorTerminalFont = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+	private static StyleContext styleContext = new StyleContext();
+	private static Style terminalNormalStyle = styleContext.addStyle("normal", null);
+	private static Style terminalErrorStyle = styleContext.addStyle("error", null);
+
+	static {
+		StyleConstants.setForeground(terminalNormalStyle, Color.WHITE);
+		StyleConstants.setForeground(terminalErrorStyle, Color.ORANGE);
+		StyleConstants.setBold(terminalErrorStyle, true);
+	}
 
 	// views
 	private JLabel programCounter;
 	private StackGui stackGui;
 	private JTextArea editArea;
-	private JTextArea terminalArea;
+	private JTextPane terminalArea;
+	private StyledDocument terminalDoc;
 	private JButton runButton;
 	private JButton stopButton;
 	private JButton startStepModeButton;
@@ -91,9 +102,12 @@ public class Gui extends JFrame {
 		quitStepModeButton.setVisible(false);
 
 		// pseudo terminal
-		terminalArea = new JTextArea();
+		terminalDoc = new DefaultStyledDocument();
+		terminalArea = new JTextPane(terminalDoc);
 		terminalArea.setFont(editorTerminalFont);
-		terminalArea.setLineWrap(true);
+		terminalArea.setBackground(Color.BLACK);
+		terminalArea.setForeground(Color.WHITE);
+		terminalArea.setEditable(false);
 		GridBagConstraints terminalAreaGBC = new GridBagConstraints();
 		terminalAreaGBC.gridx = 0;
 		terminalAreaGBC.gridy = 1;
@@ -236,13 +250,19 @@ public class Gui extends JFrame {
 	}
 
 	public void outputTerminalMessage(String msg) {
-		String original = terminalArea.getText();
-		terminalArea.setText(original + (original.length() == 0 ? "" : "\n") + msg);
+		try {
+			terminalDoc.insertString(0, (terminalDoc.getLength() == 0 ? "" : "\n") + msg, terminalNormalStyle);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void outputTerminalError(String msg) {
-		String original = terminalArea.getText();
-		terminalArea.setText(original + (original.length() == 0 ? "" : "\n") + msg);
+		try {
+			terminalDoc.insertString(0, (terminalDoc.getLength() == 0 ? "" : "\n") + msg, terminalErrorStyle);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
