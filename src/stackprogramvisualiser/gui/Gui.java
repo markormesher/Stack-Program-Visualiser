@@ -9,10 +9,17 @@ public class Gui extends JFrame {
 
 	private StackProgramVisualiser controller;
 
+	// view options
 	private Insets paddingInsets = new Insets(6, 6, 6, 6);
+	private Font editorTerminalFont = new Font(Font.MONOSPACED, Font.PLAIN, 14);
 
+	// views
 	private JLabel programCounter;
 	private StackGui stackGui;
+	private JTextArea editArea;
+	private JTextArea terminalArea;
+	private JButton runButton;
+	private JButton stepButton;
 
 	public Gui(StackProgramVisualiser controller) {
 		this.controller = controller;
@@ -22,45 +29,72 @@ public class Gui extends JFrame {
 		// set basics
 		setTitle("Stack Program Visualiser");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setSize((int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().width * 0.8), (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().height * 0.8));
+		setResizable(false);
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
 			// at least we tried
 		}
 
-		// main layout
-		JPanel mainPanel = new JPanel(new GridBagLayout());
-		setContentPane(mainPanel);
-
-		// LHS area
+		/* left/right areas */
 		JPanel leftPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints leftPanelGBC = new GridBagConstraints();
-		leftPanelGBC.anchor = GridBagConstraints.LINE_START;
-		leftPanelGBC.gridx = 0;
-		leftPanelGBC.gridy = 0;
-		leftPanelGBC.weightx = 6;
-		leftPanelGBC.weighty = 1;
-		leftPanelGBC.gridwidth = 1;
-		leftPanelGBC.gridheight = 1;
-		leftPanelGBC.fill = GridBagConstraints.BOTH;
-		mainPanel.add(leftPanel, leftPanelGBC);
-
-		// todo: spacer
-
-		// RHS area
 		JPanel rightPanel = new JPanel(new GridBagLayout());
-		GridBagConstraints rightPanelGBC = new GridBagConstraints();
-		rightPanelGBC.anchor = GridBagConstraints.LINE_END;
-		rightPanelGBC.gridx = 1;
-		rightPanelGBC.gridy = 0;
-		rightPanelGBC.weightx = 1;
-		rightPanelGBC.weighty = 1;
-		rightPanelGBC.gridwidth = 1;
-		rightPanelGBC.gridheight = 1;
-		rightPanelGBC.fill = GridBagConstraints.BOTH;
-		mainPanel.add(rightPanel, rightPanelGBC);
+
+		/* LHS items */
+
+		// editing area
+		editArea = new JTextArea();
+		editArea.setFont(editorTerminalFont);
+		editArea.setLineWrap(true);
+		GridBagConstraints editAreaGBC = new GridBagConstraints();
+		editAreaGBC.gridx = 0;
+		editAreaGBC.gridy = 0;
+		editAreaGBC.weightx = 1;
+		editAreaGBC.weighty = 3;
+		editAreaGBC.gridwidth = 1;
+		editAreaGBC.gridheight = 1;
+		editAreaGBC.fill = GridBagConstraints.BOTH;
+		editAreaGBC.insets = paddingInsets;
+		JPanel editAreaPanel = new JPanel(new GridLayout(1, 1));
+		editAreaPanel.add(new JScrollPane(editArea));
+		editAreaPanel.setBorder(BorderFactory.createTitledBorder("Program Editor"));
+		leftPanel.add(editAreaPanel, editAreaGBC);
+
+		// button bar
+		runButton = new JButton("Run");
+		stepButton = new JButton("Step");
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		buttonPanel.add(runButton);
+		buttonPanel.add(stepButton);
+		buttonPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
+		GridBagConstraints buttonPanelGBC = new GridBagConstraints();
+		buttonPanelGBC.gridx = 0;
+		buttonPanelGBC.gridy = 1;
+		buttonPanelGBC.weightx = 1;
+		buttonPanelGBC.gridwidth = 1;
+		buttonPanelGBC.gridheight = 1;
+		buttonPanelGBC.fill = GridBagConstraints.HORIZONTAL;
+		buttonPanelGBC.insets = paddingInsets;
+		leftPanel.add(buttonPanel, buttonPanelGBC);
+
+		// pseudo terminal
+		terminalArea = new JTextArea();
+		terminalArea.setFont(editorTerminalFont);
+		terminalArea.setLineWrap(true);
+		GridBagConstraints terminalAreaGBC = new GridBagConstraints();
+		terminalAreaGBC.gridx = 0;
+		terminalAreaGBC.gridy = 2;
+		terminalAreaGBC.weightx = 1;
+		terminalAreaGBC.weighty = 2;
+		terminalAreaGBC.gridwidth = 1;
+		terminalAreaGBC.gridheight = 1;
+		terminalAreaGBC.fill = GridBagConstraints.BOTH;
+		terminalAreaGBC.insets = paddingInsets;
+		JPanel terminalAreaPanel = new JPanel(new GridLayout(1, 1));
+		terminalAreaPanel.add(new JScrollPane(terminalArea));
+		terminalAreaPanel.setBorder(BorderFactory.createTitledBorder("Terminal"));
+		leftPanel.add(terminalAreaPanel, terminalAreaGBC);
 
 		/* RHS items */
 
@@ -70,7 +104,6 @@ public class Gui extends JFrame {
 		programCounter.setHorizontalAlignment(SwingConstants.CENTER);
 		programCounter.setFont(programCounter.getFont().deriveFont(48f).deriveFont(programCounter.getFont().getStyle() & ~Font.BOLD));
 		GridBagConstraints programCounterGBC = new GridBagConstraints();
-		programCounterGBC.anchor = GridBagConstraints.PAGE_START;
 		programCounterGBC.gridx = 0;
 		programCounterGBC.gridy = 0;
 		programCounterGBC.weightx = 1;
@@ -84,7 +117,6 @@ public class Gui extends JFrame {
 		stackGui = new StackGui(rightPanel);
 		stackGui.setBorder(BorderFactory.createTitledBorder("Stack"));
 		GridBagConstraints stackGuiGBC = new GridBagConstraints();
-		stackGuiGBC.anchor = GridBagConstraints.PAGE_END;
 		stackGuiGBC.gridx = 0;
 		stackGuiGBC.gridy = 1;
 		stackGuiGBC.weightx = 1;
@@ -95,8 +127,13 @@ public class Gui extends JFrame {
 		stackGuiGBC.insets = paddingInsets;
 		rightPanel.add(stackGui, stackGuiGBC);
 
+		/* set up left/right panels */
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+		splitPane.setDividerLocation((int) Math.round(getWidth() * 0.8));
+		this.setContentPane(splitPane);
+
 		// finally... display!
-		this.setVisible(true);
+		setVisible(true);
 	}
 
 }
