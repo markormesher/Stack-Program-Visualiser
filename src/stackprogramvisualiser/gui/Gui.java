@@ -251,7 +251,7 @@ public class Gui extends JFrame {
 
 	public void outputTerminalMessage(String msg) {
 		try {
-			terminalDoc.insertString(0, (terminalDoc.getLength() == 0 ? "" : "\n") + msg, terminalNormalStyle);
+			terminalDoc.insertString(terminalDoc.getLength(), (terminalDoc.getLength() == 0 ? "" : "\n") + msg, terminalNormalStyle);
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
@@ -259,7 +259,7 @@ public class Gui extends JFrame {
 
 	public void outputTerminalError(String msg) {
 		try {
-			terminalDoc.insertString(0, (terminalDoc.getLength() == 0 ? "" : "\n") + msg, terminalErrorStyle);
+			terminalDoc.insertString(terminalDoc.getLength(), (terminalDoc.getLength() == 0 ? "" : "\n") + msg, terminalErrorStyle);
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
