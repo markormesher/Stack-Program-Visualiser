@@ -1,6 +1,7 @@
 package stackprogramvisualiser;
 
 import stackprogramvisualiser.exceptions.CodeFormatException;
+import stackprogramvisualiser.exceptions.InvalidLabelException;
 import stackprogramvisualiser.exceptions.ProgramExitException;
 import stackprogramvisualiser.gui.Gui;
 
@@ -127,6 +128,9 @@ public class StackProgramVisualiser {
 			return false;
 		} catch (EmptyStackException ese) {
 			gui.outputTerminalError("Empty stack accessed at line " + programCounter);
+			return false;
+		} catch (InvalidLabelException ile) {
+			gui.outputTerminalError("Invalid label '" + ile.getLabelValue() + "'");
 			return false;
 		} catch (ProgramExitException pee) {
 			return false;

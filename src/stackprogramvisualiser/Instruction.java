@@ -1,6 +1,7 @@
 package stackprogramvisualiser;
 
 import stackprogramvisualiser.exceptions.InvalidInstructionException;
+import stackprogramvisualiser.exceptions.InvalidLabelException;
 import stackprogramvisualiser.exceptions.ProgramExitException;
 
 import java.util.EmptyStackException;
@@ -33,9 +34,9 @@ public class Instruction {
 		}
 	}
 
-	public void execute() throws NullPointerException, EmptyStackException, ProgramExitException {
+	public void execute() throws NullPointerException, EmptyStackException, ProgramExitException, InvalidLabelException {
 		// temporary holders
-		Integer a1, a2, a3, a4;
+		Integer a1, a2;
 
 		// switch on the command we're executing
 		switch (command) {
@@ -63,8 +64,11 @@ public class Instruction {
 					if (intArg != null) {
 						pcSet(intArg);
 					} else {
-						// TODO: check label
-						pcSet(StackProgramVisualiser.parsedCode.getPositionForLabel(strArg));
+						int newPC = StackProgramVisualiser.parsedCode.getPositionForLabel(strArg);
+						if (newPC < 0) {
+							throw new InvalidLabelException(strArg);
+						}
+						pcSet(newPC);
 					}
 					return;
 				}
@@ -77,8 +81,11 @@ public class Instruction {
 					if (intArg != null) {
 						pcSet(intArg);
 					} else {
-						// TODO: check label
-						pcSet(StackProgramVisualiser.parsedCode.getPositionForLabel(strArg));
+						int newPC = StackProgramVisualiser.parsedCode.getPositionForLabel(strArg);
+						if (newPC < 0) {
+							throw new InvalidLabelException(strArg);
+						}
+						pcSet(newPC);
 					}
 					return;
 				}
