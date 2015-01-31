@@ -47,6 +47,7 @@ public class StackProgramVisualiser {
 		}
 
 		// run the program
+		initProgram();
 		runProgram();
 
 		// update display
@@ -66,16 +67,41 @@ public class StackProgramVisualiser {
 		// update gui
 		gui.startStepMode();
 		gui.setEditorLock(true);
+
+		// try to parse the program
+		if (!parseProgram()) {
+			onQuitStepMode();
+			return;
+		}
+
+		// settings
+		initProgram();
+		stepMode = true;
 	}
 
 	public void onQuitStepMode() {
 		// update gui
 		gui.stopStepMode();
 		gui.setEditorLock(false);
+
+		// settings
+		stepMode = false;
 	}
 
 	public void onNextStep() {
+		// run the next step
+		nextStep = true;
+		boolean done = !runProgram();
 
+		// update display
+		gui.setProgramCounter(programCounter);
+		gui.setStackDataSource(dataStack);
+		gui.redrawStackGui();
+
+		// done?
+		if (done) {
+			onQuitStepMode();
+		}
 	}
 
 	/* program execution methods */
@@ -104,11 +130,13 @@ public class StackProgramVisualiser {
 		}
 	}
 
-	private void runProgram() {
+	private void initProgram() {
 		// get started
 		programCounter = 0;
 		dataStack.removeAllElements();
+	}
 
+	private boolean runProgram() {
 		// loop
 		while (programCounter < parsedCode.getInstructionCount()) {
 			// get instruction
@@ -116,7 +144,14 @@ public class StackProgramVisualiser {
 
 			// execute the instruction
 			if (!executeInstruction(i)) break;
+
+			// prevent looping in step mode
+			if (stepMode) {
+				return true;
+			}
 		}
+
+		return false;
 	}
 
 	private boolean executeInstruction(Instruction i) {
