@@ -94,6 +94,21 @@ public class Instruction {
 			case EXIT:
 				throw new ProgramExitException();
 
+			case SWAP:
+				a1 = pop();
+				a2 = pop();
+				push(a1);
+				push(a2);
+				break;
+
+			case DUP:
+				push(peek());
+				break;
+
+			case POP:
+				pop();
+				break;
+
 			case PRINT:
 				StackProgramVisualiser.gui.outputTerminalMessage(peek().toString());
 				break;
@@ -138,14 +153,17 @@ public class Instruction {
 		JEQ,
 		EXIT,
 
+		// stack manipulation
+		SWAP,
+		DUP,
+		POP,
+
 		// output
 		PRINT,
 
-		SWAP,
+		// not implemented yet
 		CALL,
 		RET,
-		DUP,
-		POP,
 	}
 
 }
