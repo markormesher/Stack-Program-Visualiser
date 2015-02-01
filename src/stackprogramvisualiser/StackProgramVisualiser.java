@@ -168,7 +168,7 @@ public class StackProgramVisualiser {
 			i.execute();
 			return true;
 		} catch (NullPointerException npe) {
-			gui.outputTerminalError("Missing parameter at line " + programCounter + "/" + parsedCode.getInstruction(programCounter).getLineNumber());
+			gui.outputTerminalError("Missing parameter at line " + parsedCode.getInstruction(programCounter).getLineNumber());
 			return false;
 		} catch (EmptyStackException ese) {
 			gui.outputTerminalError("Empty stack accessed at line " + parsedCode.getInstruction(programCounter).getLineNumber());
