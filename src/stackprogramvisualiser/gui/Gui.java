@@ -197,7 +197,7 @@ public class Gui extends JFrame {
 		});
 	}
 
-	public void setProgramCounter(Integer pc) {
+	public void setProgramCounter(Integer pc, Integer line) {
 		// set text
 		programCounter.setText(pc == null ? "--" : pc.toString());
 
@@ -205,10 +205,10 @@ public class Gui extends JFrame {
 		editArea.getHighlighter().removeAllHighlights();
 
 		// highlight the current line
-		if (pc != null) {
+		if (line != null) {
 			Highlighter.HighlightPainter highlight = new DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY);
 			try {
-				editArea.getHighlighter().addHighlight(editArea.getLineStartOffset(pc), editArea.getLineEndOffset(pc), highlight);
+				editArea.getHighlighter().addHighlight(editArea.getLineStartOffset(line), editArea.getLineEndOffset(line), highlight);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}

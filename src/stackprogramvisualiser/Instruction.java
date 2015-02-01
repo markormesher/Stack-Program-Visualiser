@@ -11,19 +11,23 @@ public class Instruction {
 	private Command command;
 	private Integer intArg = null;
 	private String strArg = null;
+	private int lineNumber;
 
-	public Instruction(String command) throws InvalidInstructionException {
+	public Instruction(String command, int lineNumber) throws InvalidInstructionException {
 		setCommand(command);
+		this.lineNumber = lineNumber;
 	}
 
-	public Instruction(String command, int intArg) throws InvalidInstructionException {
+	public Instruction(String command, int intArg, int lineNumber) throws InvalidInstructionException {
 		setCommand(command);
 		this.intArg = intArg;
+		this.lineNumber = lineNumber;
 	}
 
-	public Instruction(String command, String strArg) throws InvalidInstructionException {
+	public Instruction(String command, String strArg, int lineNumber) throws InvalidInstructionException {
 		setCommand(command);
 		this.strArg = strArg;
+		this.lineNumber = lineNumber;
 	}
 
 	private void setCommand(String command) throws InvalidInstructionException {
@@ -32,6 +36,10 @@ public class Instruction {
 		} catch (IllegalArgumentException iae) {
 			throw new InvalidInstructionException(command);
 		}
+	}
+
+	public int getLineNumber() {
+		return lineNumber;
 	}
 
 	public void execute() throws NullPointerException, EmptyStackException, ProgramExitException, InvalidLabelException {

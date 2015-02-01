@@ -29,7 +29,7 @@ public class StackProgramVisualiser {
 		gui.build();
 
 		// default RHS view
-		gui.setProgramCounter(null);
+		gui.setProgramCounter(null, null);
 		gui.redrawStackGui();
 	}
 
@@ -51,7 +51,7 @@ public class StackProgramVisualiser {
 		runProgram();
 
 		// update display
-		gui.setProgramCounter(null);
+		gui.setProgramCounter(null, null);
 		gui.setStackDataSource(dataStack);
 		gui.redrawStackGui();
 		onStop();
@@ -88,7 +88,7 @@ public class StackProgramVisualiser {
 		// update gui
 		gui.stopStepMode();
 		gui.setEditorLock(false);
-		gui.setProgramCounter(null);
+		gui.setProgramCounter(null, null);
 
 		// settings
 		stepMode = false;
@@ -99,7 +99,7 @@ public class StackProgramVisualiser {
 		boolean done = !runProgram();
 
 		// update display
-		gui.setProgramCounter(oldProgramCounter);
+		gui.setProgramCounter(oldProgramCounter, parsedCode.getInstruction(oldProgramCounter).getLineNumber());
 		gui.setStackDataSource(dataStack);
 		gui.redrawStackGui();
 
@@ -127,9 +127,10 @@ public class StackProgramVisualiser {
 			parsedCode = parser.parse();
 			return true;
 		} catch (CodeFormatException e) {
-			gui.outputTerminalError("CodeFormatException on line " + e.getLineNumber());
 			if (e.getIie() != null) {
-				gui.outputTerminalError("    - Invalid instruction name '" + e.getIie().getInstructionValue() + "'");
+				gui.outputTerminalError("CodeFormatException on line " + e.getLineNumber() + "; invalid instruction name '" + e.getIie().getInstructionValue() + "'");
+			} else {
+				gui.outputTerminalError("CodeFormatException on line " + e.getLineNumber());
 			}
 			return false;
 		}
@@ -167,10 +168,10 @@ public class StackProgramVisualiser {
 			i.execute();
 			return true;
 		} catch (NullPointerException npe) {
-			gui.outputTerminalError("Missing parameter at line " + programCounter);
+			gui.outputTerminalError("Missing parameter at line " + programCounter + "/" + parsedCode.getInstruction(programCounter).getLineNumber());
 			return false;
 		} catch (EmptyStackException ese) {
-			gui.outputTerminalError("Empty stack accessed at line " + programCounter);
+			gui.outputTerminalError("Empty stack accessed at line " + parsedCode.getInstruction(programCounter).getLineNumber());
 			return false;
 		} catch (InvalidLabelException ile) {
 			gui.outputTerminalError("Invalid label '" + ile.getLabelValue() + "'");

@@ -92,13 +92,13 @@ public class Parser {
 				try {
 					int intArg = Integer.parseInt(instructionChunks[1].trim());
 					try {
-						instruction = new Instruction(instructionChunks[0].trim(), intArg);
+						instruction = new Instruction(instructionChunks[0].trim(), intArg, i);
 					} catch (InvalidInstructionException iie) {
 						throw new CodeFormatException(i, iie);
 					}
 				} catch (NumberFormatException nfe) {
 					try {
-						instruction = new Instruction(instructionChunks[0].trim(), instructionChunks[1].trim());
+						instruction = new Instruction(instructionChunks[0].trim(), instructionChunks[1].trim(), i);
 					} catch (InvalidInstructionException iie) {
 						throw new CodeFormatException(i, iie);
 					}
@@ -106,7 +106,7 @@ public class Parser {
 			} else {
 				// parse a single instruction
 				try {
-					instruction = new Instruction(line.trim());
+					instruction = new Instruction(line.trim(), i);
 				} catch (InvalidInstructionException iie) {
 					throw new CodeFormatException(i, iie);
 				}
