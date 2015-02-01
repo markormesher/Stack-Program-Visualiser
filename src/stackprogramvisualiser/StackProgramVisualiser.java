@@ -88,6 +88,7 @@ public class StackProgramVisualiser {
 		// update gui
 		gui.stopStepMode();
 		gui.setEditorLock(false);
+		gui.setProgramCounter(null);
 
 		// settings
 		stepMode = false;
