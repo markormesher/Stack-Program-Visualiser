@@ -91,6 +91,23 @@ public class Instruction {
 				}
 				break;
 
+			case CALL:
+				push(pcGet() + 1);
+				if (intArg != null) {
+					pcSet(intArg);
+				} else {
+					int newPC = StackProgramVisualiser.parsedCode.getPositionForLabel(strArg);
+					if (newPC < 0) {
+						throw new InvalidLabelException(strArg);
+					}
+					pcSet(newPC);
+				}
+				return;
+
+			case RET:
+				pcSet(pop());
+				return;
+
 			case EXIT:
 				throw new ProgramExitException();
 
@@ -132,8 +149,12 @@ public class Instruction {
 		return StackProgramVisualiser.dataStack.peek();
 	}
 
+	private int pcGet() {
+		return StackProgramVisualiser.programCounter;
+	}
+
 	private void pcAdvance() {
-		StackProgramVisualiser.programCounter++;
+		++StackProgramVisualiser.programCounter;
 	}
 
 	private void pcSet(int pc) {
@@ -151,6 +172,8 @@ public class Instruction {
 		// control statements
 		JGE,
 		JEQ,
+		CALL,
+		RET,
 		EXIT,
 
 		// stack manipulation
@@ -160,10 +183,6 @@ public class Instruction {
 
 		// output
 		PRINT,
-
-		// not implemented yet
-		CALL,
-		RET,
 	}
 
 }
