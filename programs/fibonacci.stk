@@ -1,29 +1,29 @@
-// Calculates the 25th Fibonacci number
+// calculate the 25th Fibonacci number
 INT 25
 
-CALL 11
+CALL recursive
 PRINT
 EXIT
-SWAP
+done: SWAP
 RET
-POP
+jump_back: POP
 POP
 INT 1
 SWAP
 RET
-SWAP
-JEQ 4
+recursive: SWAP
+JEQ done
 DUP
 INT 1
 SUB
-JEQ 6
-CALL 11
+JEQ jump_back
+CALL recursive
 SWAP
 INT 1
 SUB
 INT 1
 SUB
-CALL 11
+CALL recursive
 ADD
 SWAP
 RET
