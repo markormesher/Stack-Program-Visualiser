@@ -30,7 +30,6 @@ public class Gui extends JFrame {
 	private JLabel programCounter;
 	private StackGui stackGui;
 	private JTextArea editArea;
-	private JTextPane terminalArea;
 	private StyledDocument terminalDoc;
 	private JButton runButton;
 	private JButton stopButton;
@@ -46,8 +45,8 @@ public class Gui extends JFrame {
 		// set basics
 		setTitle("Stack Program Visualiser");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize((int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().width * 0.8), (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().height * 0.8));
-		setResizable(false);
+		setSize(1000, 700);
+		setResizable(true);
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 		} catch (Exception e) {
@@ -56,7 +55,7 @@ public class Gui extends JFrame {
 
 		/* left/right areas */
 		JSplitPane leftPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-		leftPanel.setDividerLocation((int) Math.round(getHeight() * 0.5));
+		leftPanel.setResizeWeight(0.8);
 		JPanel rightPanel = new JPanel(new GridBagLayout());
 
 		/* LHS items */
@@ -103,7 +102,7 @@ public class Gui extends JFrame {
 
 		// pseudo terminal
 		terminalDoc = new DefaultStyledDocument();
-		terminalArea = new JTextPane(terminalDoc);
+		JTextPane terminalArea = new JTextPane(terminalDoc);
 		terminalArea.setFont(editorTerminalFont);
 		terminalArea.setBackground(Color.BLACK);
 		terminalArea.setForeground(Color.WHITE);
@@ -158,10 +157,11 @@ public class Gui extends JFrame {
 
 		/* set up left/right panels */
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-		splitPane.setDividerLocation((int) Math.round(getWidth() * 0.8));
+		splitPane.setResizeWeight(0.65);
 		this.setContentPane(splitPane);
 
 		// finally... display!
+		setLocationRelativeTo(null);
 		setVisible(true);
 
 		// set up button clicks
