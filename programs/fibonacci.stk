@@ -1,0 +1,29 @@
+// Calculates the 25th Fibonacci number
+INT 25
+
+CALL 11
+PRINT
+EXIT
+SWAP
+RET
+POP
+POP
+INT 1
+SWAP
+RET
+SWAP
+JEQ 4
+DUP
+INT 1
+SUB
+JEQ 6
+CALL 11
+SWAP
+INT 1
+SUB
+INT 1
+SUB
+CALL 11
+ADD
+SWAP
+RET
