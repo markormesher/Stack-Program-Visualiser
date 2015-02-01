@@ -1,7 +1,11 @@
-./stackprogramvisualiser/exceptions/InvalidInstructionException.java
+./stackprogramvisualiser/exceptions/InvalidLabelException.java
+./stackprogramvisualiser/exceptions/ProgramExitException.java
 ./stackprogramvisualiser/exceptions/CodeFormatException.java
-./stackprogramvisualiser/Parser.java
-./stackprogramvisualiser/StackProgramVisualiser.java
+./stackprogramvisualiser/exceptions/InvalidInstructionException.java
 ./stackprogramvisualiser/ParsedCode.java
+./stackprogramvisualiser/Parser.java
+./stackprogramvisualiser/gui/StackGui.java
+./stackprogramvisualiser/gui/StackCell.java
+./stackprogramvisualiser/gui/Gui.java
 ./stackprogramvisualiser/Instruction.java
-./stackprogramvisualiser/gui/GUI.java
+./stackprogramvisualiser/StackProgramVisualiser.java
