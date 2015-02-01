@@ -198,7 +198,21 @@ public class Gui extends JFrame {
 	}
 
 	public void setProgramCounter(Integer pc) {
+		// set text
 		programCounter.setText(pc == null ? "--" : pc.toString());
+
+		// clear highlight
+		editArea.getHighlighter().removeAllHighlights();
+
+		// highlight the current line
+		if (pc != null) {
+			Highlighter.HighlightPainter highlight = new DefaultHighlighter.DefaultHighlightPainter(Color.LIGHT_GRAY);
+			try {
+				editArea.getHighlighter().addHighlight(editArea.getLineStartOffset(pc), editArea.getLineEndOffset(pc), highlight);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void setStackDataSource(Stack<Integer> data) {
@@ -217,11 +231,16 @@ public class Gui extends JFrame {
 		quitStepModeButton.setVisible(true);
 	}
 
+	public void finishStepMode() {
+		nextStepButton.setEnabled(false);
+	}
+
 	public void stopStepMode() {
 		runButton.setVisible(true);
 		stopButton.setVisible(false);
 		startStepModeButton.setVisible(true);
 		nextStepButton.setVisible(false);
+		nextStepButton.setEnabled(true);
 		quitStepModeButton.setVisible(false);
 	}
 

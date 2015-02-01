@@ -13,10 +13,10 @@ public class StackProgramVisualiser {
 	public static Gui gui;
 
 	private boolean stepMode = false;
-	private boolean nextStep = false;
 
 	// these are public static so that the Instruction class can interact with them
 	public static ParsedCode parsedCode;
+	public int oldProgramCounter = -1;
 	public static int programCounter = -1;
 	public static Stack<Integer> dataStack = new Stack<Integer>();
 
@@ -51,7 +51,7 @@ public class StackProgramVisualiser {
 		runProgram();
 
 		// update display
-		gui.setProgramCounter(programCounter);
+		gui.setProgramCounter(null);
 		gui.setStackDataSource(dataStack);
 		gui.redrawStackGui();
 		onStop();
@@ -79,6 +79,11 @@ public class StackProgramVisualiser {
 		stepMode = true;
 	}
 
+	public void onFinishStepMode() {
+		// update gui
+		gui.finishStepMode();
+	}
+
 	public void onQuitStepMode() {
 		// update gui
 		gui.stopStepMode();
@@ -90,17 +95,16 @@ public class StackProgramVisualiser {
 
 	public void onNextStep() {
 		// run the next step
-		nextStep = true;
 		boolean done = !runProgram();
 
 		// update display
-		gui.setProgramCounter(programCounter);
+		gui.setProgramCounter(oldProgramCounter);
 		gui.setStackDataSource(dataStack);
 		gui.redrawStackGui();
 
 		// done?
 		if (done) {
-			onQuitStepMode();
+			onFinishStepMode();
 		}
 	}
 
@@ -139,6 +143,9 @@ public class StackProgramVisualiser {
 	private boolean runProgram() {
 		// loop
 		while (programCounter < parsedCode.getInstructionCount()) {
+			// store old value
+			oldProgramCounter = programCounter;
+
 			// get instruction
 			Instruction i = parsedCode.getInstruction(programCounter);
 
@@ -146,7 +153,7 @@ public class StackProgramVisualiser {
 			if (!executeInstruction(i)) break;
 
 			// prevent looping in step mode
-			if (stepMode) {
+			if (stepMode && programCounter < parsedCode.getInstructionCount()) {
 				return true;
 			}
 		}
