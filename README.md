@@ -10,7 +10,7 @@ This grew from a command line interpreter I wrote for a first-year lecture I ass
 
 ## How Do I Use It?
 
-Download the whole repo, then either compile from source using `javac @sources.txt` followed by `java StackProgramVisualiser`, or just run the handily included executable JAR file.
+Download the whole repo, compile from source using `javac @sources.txt`, then run the program with `java StackProgramVisualiser`.
 
 ## Dude... Why Java? And Why _Swing_?!
 
