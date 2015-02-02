@@ -4,3 +4,4 @@
 
 # compiler
 *.class
+out/
