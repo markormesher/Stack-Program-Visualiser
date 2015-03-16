@@ -148,6 +148,24 @@ public class Instruction {
 				variableStore(strArg, a1);
 				break;
 
+			case LESS_THAN:
+				a1 = pop();
+				a2 = pop();
+				push(a2 < a1 ? 1 : 0);
+				break;
+
+			case MORE_THAN:
+				a1 = pop();
+				a2 = pop();
+				push(a2 > a1 ? 1 : 0);
+				break;
+
+			case EQUAL:
+				a1 = pop();
+				a2 = pop();
+				push(a2.equals(a1) ? 1 : 0);
+				break;
+
 			case PRINT:
 				StackProgramVisualiser.gui.outputTerminalMessage(peek().toString());
 				break;
@@ -198,6 +216,11 @@ public class Instruction {
 		// arithmetic
 		ADD,
 		SUB,
+
+		// comparison
+		LESS_THAN,
+		MORE_THAN,
+		EQUAL,
 
 		// control statements
 		JGE,
