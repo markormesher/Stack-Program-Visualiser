@@ -2,6 +2,7 @@ package stackprogramvisualiser;
 
 import stackprogramvisualiser.exceptions.InvalidInstructionException;
 import stackprogramvisualiser.exceptions.InvalidLabelException;
+import stackprogramvisualiser.exceptions.InvalidVariableException;
 import stackprogramvisualiser.exceptions.ProgramExitException;
 
 import java.util.EmptyStackException;
@@ -42,7 +43,7 @@ public class Instruction {
 		return lineNumber;
 	}
 
-	public void execute() throws NullPointerException, EmptyStackException, ProgramExitException, InvalidLabelException {
+	public void execute() throws NullPointerException, EmptyStackException, ProgramExitException, InvalidLabelException, InvalidVariableException {
 		// temporary holders
 		Integer a1, a2;
 
@@ -134,6 +135,19 @@ public class Instruction {
 				pop();
 				break;
 
+			case VAR_LOOKUP:
+				a1 = variableLookup(strArg);
+				if (a1 == null) {
+					throw new InvalidVariableException(strArg);
+				}
+				push(a1);
+				break;
+
+			case VAR_SET:
+				a1 = peek();
+				variableStore(strArg, a1);
+				break;
+
 			case PRINT:
 				StackProgramVisualiser.gui.outputTerminalMessage(peek().toString());
 				break;
@@ -169,6 +183,14 @@ public class Instruction {
 		StackProgramVisualiser.programCounter = pc;
 	}
 
+	private void variableStore(String name, Integer value) {
+		StackProgramVisualiser.variableMap.put(name, value);
+	}
+
+	private Integer variableLookup(String name) {
+		return StackProgramVisualiser.variableMap.get(name);
+	}
+
 	public enum Command {
 		// basic inputs
 		INT,
@@ -188,6 +210,10 @@ public class Instruction {
 		SWAP,
 		DUP,
 		POP,
+
+		// variable storage
+		VAR_LOOKUP,
+		VAR_SET,
 
 		// output
 		PRINT,

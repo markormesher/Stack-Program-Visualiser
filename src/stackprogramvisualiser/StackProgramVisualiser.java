@@ -2,11 +2,15 @@ package stackprogramvisualiser;
 
 import stackprogramvisualiser.exceptions.CodeFormatException;
 import stackprogramvisualiser.exceptions.InvalidLabelException;
+import stackprogramvisualiser.exceptions.InvalidVariableException;
 import stackprogramvisualiser.exceptions.ProgramExitException;
 import stackprogramvisualiser.gui.Gui;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.Stack;
 
 public class StackProgramVisualiser {
@@ -19,7 +23,8 @@ public class StackProgramVisualiser {
 	public static ParsedCode parsedCode;
 	public int oldProgramCounter = -1;
 	public static int programCounter = -1;
-	public static Stack<Integer> dataStack = new Stack<Integer>();
+	public static Stack<Integer> dataStack = new Stack<>();
+	public static HashMap<String, Integer> variableMap = new HashMap<>();
 
 	public StackProgramVisualiser() {
 	}
@@ -33,25 +38,22 @@ public class StackProgramVisualiser {
 		gui.setProgramCounter(null, null);
 		gui.redrawStackGui();
 
-        if (args.length == 1) {
-            StringBuilder sb = new StringBuilder();
-            try {
-                try(BufferedReader br = new BufferedReader(new FileReader(args[0]))) {
-                    String line = br.readLine();
-
-                    while (line != null) {
-                        sb.append(line);
-                        sb.append(System.lineSeparator());
-                        line = br.readLine();
-                    }
-                }
-            }
-            catch (IOException e) {
-                System.out.println(e);
-                System.exit(1);
-            }
-            gui.setEditorContents(sb.toString());
-        }
+		if (args.length == 1) {
+			StringBuilder sb = new StringBuilder();
+			try {
+				try (BufferedReader br = new BufferedReader(new FileReader(args[0]))) {
+					String line;
+					while ((line = br.readLine()) != null) {
+						sb.append(line);
+						sb.append(System.lineSeparator());
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+			gui.setEditorContents(sb.toString());
+		}
 	}
 
 	/* button action listeners */
@@ -196,6 +198,9 @@ public class StackProgramVisualiser {
 			return false;
 		} catch (InvalidLabelException ile) {
 			gui.outputTerminalError("Invalid label '" + ile.getLabelValue() + "'");
+			return false;
+		} catch (InvalidVariableException ive) {
+			gui.outputTerminalError("Invalid variable '" + ive.getVariableName() + "'");
 			return false;
 		} catch (ProgramExitException pee) {
 			return false;
