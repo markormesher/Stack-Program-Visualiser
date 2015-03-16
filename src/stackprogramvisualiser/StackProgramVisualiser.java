@@ -5,6 +5,7 @@ import stackprogramvisualiser.exceptions.InvalidLabelException;
 import stackprogramvisualiser.exceptions.ProgramExitException;
 import stackprogramvisualiser.gui.Gui;
 
+import java.io.*;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
@@ -24,13 +25,33 @@ public class StackProgramVisualiser {
 	}
 
 	// let's get the party started
-	public void init() {
+	public void init(String[] args) {
 		gui = new Gui(this);
 		gui.build();
 
 		// default RHS view
 		gui.setProgramCounter(null, null);
 		gui.redrawStackGui();
+
+        if (args.length == 1) {
+            StringBuilder sb = new StringBuilder();
+            try {
+                try(BufferedReader br = new BufferedReader(new FileReader(args[0]))) {
+                    String line = br.readLine();
+
+                    while (line != null) {
+                        sb.append(line);
+                        sb.append(System.lineSeparator());
+                        line = br.readLine();
+                    }
+                }
+            }
+            catch (IOException e) {
+                System.out.println(e);
+                System.exit(1);
+            }
+            gui.setEditorContents(sb.toString());
+        }
 	}
 
 	/* button action listeners */
@@ -184,7 +205,7 @@ public class StackProgramVisualiser {
 	/* main method to start things off */
 
 	public static void main(String[] args) {
-		new StackProgramVisualiser().init();
+		new StackProgramVisualiser().init(args);
 	}
 
 }

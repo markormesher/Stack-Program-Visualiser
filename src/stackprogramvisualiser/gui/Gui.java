@@ -268,6 +268,10 @@ public class Gui extends JFrame {
 		return editArea.getText();
 	}
 
+	public void setEditorContents(String p) {
+		editArea.setText(p);
+	}
+
 	public void outputTerminalMessage(String msg) {
 		try {
 			terminalDoc.insertString(terminalDoc.getLength(), (terminalDoc.getLength() == 0 ? "" : "\n") + msg, terminalNormalStyle);
