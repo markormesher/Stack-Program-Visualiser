@@ -100,6 +100,19 @@ public class Instruction {
 				}
 				break;
 
+			case JMP:
+				// which arg to move to?
+				if (intArg != null) {
+					pcSet(intArg);
+				} else {
+					int newPC = StackProgramVisualiser.parsedCode.getPositionForLabel(strArg);
+					if (newPC < 0) {
+						throw new InvalidLabelException(strArg);
+					}
+					pcSet(newPC);
+				}
+				return;
+
 			case CALL:
 				push(pcGet() + 1);
 				if (intArg != null) {
@@ -225,6 +238,7 @@ public class Instruction {
 		// control statements
 		JGE,
 		JEQ,
+		JMP,
 		CALL,
 		RET,
 		EXIT,
