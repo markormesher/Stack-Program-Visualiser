@@ -66,15 +66,31 @@ public class Parser {
 				String[] labelChunks = line.split(":");
 
 				// check we have the right amount of segments
-				if (labelChunks.length != 2) {
+				if (labelChunks.length == 2) {
+					// put this label into the label map
+					labels.put(labelChunks[0].trim(), instructions.size());
+
+					// restore the line as the rest of the instruction
+					line = labelChunks[1].trim();
+				} else if (labelChunks.length == 1) {
+					// could be a label on one line and code on the next
+					// look forward to the next code line
+					int pointTo = i + 1;
+					while (pointTo < rawLines.size() && (rawLines.get(pointTo).trim().length() == 0 || rawLines.get(pointTo).startsWith("//"))) {
+						++pointTo;
+					}
+
+					// did we find one?
+					if (pointTo < rawLines.size()) {
+						// insert label, pointing to the next instruction
+						labels.put(labelChunks[0].trim(), instructions.size());
+						continue;
+					} else {
+						throw new CodeFormatException(pointTo);
+					}
+				} else {
 					throw new CodeFormatException(i);
 				}
-
-				// put this label into the label map
-				labels.put(labelChunks[0].trim(), instructions.size());
-
-				// restore the line as the rest of the instruction
-				line = labelChunks[1].trim();
 			}
 
 			// parse the instruction and (maybe) argument
